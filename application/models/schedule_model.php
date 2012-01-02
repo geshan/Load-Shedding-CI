@@ -17,9 +17,9 @@ class Schedule_Model extends CI_Model {
     parent::__construct();
   }
 
-  function get_last_ten_entries()
+  function get_last_15_entries()
   {
-    $query = $this->db->get('ls_schedule', 10);
+    $query = $this->db->get('ls_schedule', 15);
     return $query->result();
   }
 /*
@@ -41,9 +41,33 @@ class Schedule_Model extends CI_Model {
     $this->db->update('entries', $this, array('id' => $_POST['id']));
   }
 */
-  function search($day, $group)
+  function lookup($group='2', $day = 'Sunday')
   {
-    $query = $this->db->get_where('ls_schedule', array('day' => $day, 'group'), 1);
+    $query = $this->db->get_where('ls_hash_map', array('xday1' => $day, 'xgroup' => $group), 1);
+    if($query->num_rows > 0) {
+      $row = $query->row();
+      return $row->group1_day;
+     /* $query2 = $this->db->get_where('ls_schedule', array('day'=>$group1_day, 
+      																										'group' => '1', 
+      																										'status' => '1', 
+      																										'type' => $type
+      																										)
+                                    );
+      return $query2->result();*/
+    }
+    else {
+      return NULL;
+    }
+    
+  }
+  
+  function search($day = 'Sunday', $type='First') {
+    $query = $this->db->get_where('ls_schedule', array('day'=> $day,
+                                                        'group' => '1',
+                                                        'status' => '1',
+                                                        'type' => $type
+                                                      )
+                                  );
     return $query->result();
   }
 }
