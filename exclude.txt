@@ -1,0 +1,5 @@
+.git
+.git/*
+.gitignore
+application/config/config.php
+applicatoin/config/database.php

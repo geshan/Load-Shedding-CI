@@ -77,13 +77,11 @@ class Schedule extends CI_Controller {
 	
 	function check($group = 1, $nepal_day = '0', $time = '0') 
 	{
-	  
-	  
 	  $dateTime = new DateTime("now", new DateTimeZone('Asia/Kathmandu'));
 	  $nepal_time =  $dateTime->format("Y-m-d H:i:s");
 	  $nepal_time_h_m_s = $dateTime->format("H:i:s");
-	  
-	  if($nepal_day == 0) {
+	 
+	  if($nepal_day == '0') {
 	    //get today's day
 	    $nepal_day = $dateTime->format("l");
 	  }
@@ -95,8 +93,106 @@ class Schedule extends CI_Controller {
 	    exit();
 	  }
 	  
-	  //check group
+    $no_light = $this->_check_light($group, $nepal_day);
+	  if($no_light) {
+	    $message = "Group ". $group . " does not have light right now.";
+	    $full_message = "It is ". $nepal_time_h_m_s ." - ". $nepal_day ." at the current moment and ". $message;
+	    $this->template->set('msg_class', 'no');
+	  }
+	  else {
+	    $message = "Group ". $group . " has light right now.";
+	    $full_message = "It is ". $nepal_time_h_m_s ." - ". $nepal_day ." at the current moment and ". $message;
+	    $this->template->set('msg_class', 'yes');
+	  }
 	  
+	  $this->template->set('custom_message', $message);
+	  $this->template->set('full_message', $full_message);
+	  $this->template->render();
+	  //check if there is light;
+	}
+	
+	/********************** ================== Web API functions Part Start ====================== *****************/
+	function check_current($group = 1, $nepal_day=0)
+	{
+	  $dateTime = new DateTime("now", new DateTimeZone('Asia/Kathmandu'));
+	  $nepal_time =  $dateTime->format("Y-m-d H:i:s");
+	  $nepal_time_h_m_s = $dateTime->format("H:i:s");
+	   
+	  if($nepal_day == 0) {
+	    //get today's day
+	    $nepal_day = $dateTime->format("l");
+	  }
+	  if(! in_array($nepal_day, $this->days)) {
+	    /*$this->template->set_message('Invalid day given');
+	     $this->template->set('message_class', 'error');
+	    $this->template->render();*/
+	    print "Error in given day";
+	    exit();
+	  }
+	   
+	  $no_light = $this->_check_light($group, $nepal_day);
+	  if($no_light) {
+	    $output['light_status'] = 0;
+	    $output['message'] = "Group ". $group . " does not have light right now.";
+	    $output['full_message'] = "It is ". $nepal_time_h_m_s ." - ". $nepal_day ." at the current moment and ". $output['message'];
+	  }
+	  else {
+	    $output['light_status'] = 1;
+	    $output['message'] = "Group ". $group . " has light right now.";
+	    $output['full_message'] = "It is ". $nepal_time_h_m_s ." - ". $nepal_day ." at the current moment and ". $output['message'];
+	  }
+	  
+	  $xml	= array_to_xml($output,1,'messages' );
+	  header('Content-Type: application/xml');
+	  print $xml;
+	}
+	/********************** ================== Web API functions Part End ====================== *****************/
+	
+	/********************** ================== Private functions Part Start ====================== *****************/
+	function _lookup_schedule($group = '2', $day = 'Sunday')
+	{
+	  $group1_day =  $this->schedule->lookup($group, $day);
+	  //print $group1_day .'<br>';
+	  return $group1_day;
+	}
+	
+	function _search($day = 'Sunday', $type='First')
+	{
+	  $result = $this->schedule->search($day, $type);
+	  $ret = '';
+	  foreach ($result as $row) {
+	    $ret .=$row->start_time . ' - ' . $row->end_time;
+	    $ret .='<br/>'; 
+	  }
+	  return $ret; 
+	}
+	
+	function _set_vars() 
+	{
+	  //$group2to7[][] = '';
+	   
+	  foreach($this->days as $day) {
+	    $this->group1[$day] .= $this->_search($day, 'First');
+	    $this->group1[$day] .= $this->_search($day, 'Second');
+	  }
+	   
+	  foreach($this->groups as $group){
+	    foreach($this->days as $day) {
+	      $this->group2to7[$group][$day] = $this->group1[$this->_lookup_schedule($group, $day)];
+	    }
+	     
+	  }
+	  
+	}
+	
+	function _check_light($group = '1', $nepal_day)
+	{
+	  
+	  $dateTime = new DateTime("now", new DateTimeZone('Asia/Kathmandu'));
+	  $nepal_time =  $dateTime->format("Y-m-d H:i:s");
+	  $nepal_time_h_m_s = $dateTime->format("H:i:s");
+	  
+	  	  //check group
     
 	  $this->_set_vars();
 	  
@@ -133,56 +229,8 @@ class Schedule extends CI_Controller {
 	    }
 	  }
 	  
-	  if($no_light) {
-	    $message = "Group ". $group . " does not have light right now.";
-	    $full_message = "It is ". $nepal_time_h_m_s ." - ". $nepal_day ." at the current moment and ". $message;
-	    $this->template->set('msg_class', 'no');
-	  }
-	  else {
-	    $message = "Group ". $group . " has light right now.";
-	    $full_message = "It is ". $nepal_time_h_m_s ." - ". $nepal_day ." at the current moment and ". $message;
-	    $this->template->set('msg_class', 'yes');
-	  }
 	  
-	  $this->template->set('custom_message', $message);
-	  $this->template->set('full_message', $full_message);
-	  $this->template->render();
-	  //check if there is light;
-	}
-	/********************** ================== Private functions Part Start ====================== *****************/
-	function _lookup_schedule($group = '2', $day = 'Sunday')
-	{
-	  $group1_day =  $this->schedule->lookup($group, $day);
-	  //print $group1_day .'<br>';
-	  return $group1_day;
-	}
-	
-	function _search($day = 'Sunday', $type='First')
-	{
-	  $result = $this->schedule->search($day, $type);
-	  $ret = '';
-	  foreach ($result as $row) {
-	    $ret .=$row->start_time . ' - ' . $row->end_time;
-	    $ret .='<br/>'; 
-	  }
-	  return $ret; 
-	}
-	
-	function _set_vars() 
-	{
-	  //$group2to7[][] = '';
-	   
-	  foreach($this->days as $day) {
-	    $this->group1[$day] .= $this->_search($day, 'First');
-	    $this->group1[$day] .= $this->_search($day, 'Second');
-	  }
-	   
-	  foreach($this->groups as $group){
-	    foreach($this->days as $day) {
-	      $this->group2to7[$group][$day] = $this->group1[$this->_lookup_schedule($group, $day)];
-	    }
-	     
-	  }
+	  return $no_light;
 	  
 	}
 	
