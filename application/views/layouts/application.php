@@ -15,7 +15,7 @@
 <div class="<?php print $message_class;?>">	<?php echo $this->template->message(); ?></div>
     
     <?php echo $this->template->yield(); ?>
-    
+    <?php print anchor("", 'Home');?>
 
 </body>
 </html>

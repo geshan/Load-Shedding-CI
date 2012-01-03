@@ -32,11 +32,21 @@
     endforeach; ?>
   </table>
   <div id="legand">
-  Legand
+  <p><b>Current time in Nepal: <?php print $nepal_time_h_m_s;?></b></p>
+  <b>Legend</b>
   	<ul>
   		<li> <span class="no-light">Red</span> : Currently there is no light in that group</li>
   		<li> <span class="yes-light">Blue</span> : Currently there is light in that group</li>
   		<li> <span class="td-today-1">Grey</span> : Today
   	</ul>
   </div>
+</div>
+<div id="embed_code">
+<p>If you want to embed this on your website/blog copy and paste the code given below:</p>
+<textarea rows="5" cols="5">
+<object data="<?php print base_url();?>index.php/schedule/show" type="text/html" width="850" height="350">
+  alt : <a href="<?php print base_url();?>index.php/schedule/show">Live Load Shedding Schedule</a>
+</object>
+</textarea>
+<p>Ps: Adjust height and width yourself.</p>
 </div>

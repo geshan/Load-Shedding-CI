@@ -91,12 +91,14 @@ class Schedule extends CI_Controller {
 	  //print_r($group2to7);
 	  $dateTime = new DateTime("now", new DateTimeZone('Asia/Kathmandu'));
 	  $nepal_day = $dateTime->format("l");
+	  $nepal_time_h_m_s = $dateTime->format("H:i:s");
 	  
 	  $this->template->set('days',$this->days);
 	  $this->template->set('group2to7', $this->group2to7);
 	  $this->template->set('group1',$this->group1);
 	  $this->template->set('statuses', $this->statuses);
 	  $this->template->set('nepal_day', $nepal_day);
+	  $this->template->set('nepal_time_h_m_s', $nepal_time_h_m_s);
 	  $this->template->render();
 	}
 	
@@ -128,13 +130,13 @@ class Schedule extends CI_Controller {
 	  
     $no_light = $this->_check_light($group, $nepal_day); //no_light 1 is there is no light
 	  if($no_light) {
-	    $message = "Group ". $group . " does not have light right now.";
-	    $full_message = "It is ". $nepal_time_h_m_s ." - ". $nepal_day ." at the current moment and ". $message;
+	    $message = "Group ". $group . " does not have light for this time.";
+	    $full_message = "It is a check for ". $nepal_time_h_m_s ." - ". $nepal_day ." at the current moment and ". $message;
 	    $this->template->set('msg_class', 'no');
 	  }
 	  else {
-	    $message = "Group ". $group . " has light right now.";
-	    $full_message = "It is ". $nepal_time_h_m_s ." - ". $nepal_day ." at the current moment and ". $message;
+	    $message = "Group ". $group . " has light for this time.";
+	    $full_message = "It is a check for ". $nepal_time_h_m_s ." - ". $nepal_day ." and ". $message;
 	    $this->template->set('msg_class', 'yes');
 	  }
 	  
@@ -160,13 +162,13 @@ class Schedule extends CI_Controller {
 	 * @param int $group
 	 * @param string $nepal_day
 	 */
-	function check_current($group = 1, $nepal_day=0)
+	function check_current($group = 1, $nepal_day='0')
 	{
 	  $dateTime = new DateTime("now", new DateTimeZone('Asia/Kathmandu'));
 	  $nepal_time =  $dateTime->format("Y-m-d H:i:s");
 	  $nepal_time_h_m_s = $dateTime->format("H:i:s");
 	   
-	  if($nepal_day == 0) {
+	  if($nepal_day == '0') {
 	    //get today's day
 	    $nepal_day = $dateTime->format("l");
 	  }
@@ -177,17 +179,22 @@ class Schedule extends CI_Controller {
 	    print "Error in given day";
 	    exit();
 	  }
-	   
+	   //check group
+	   if( ( ($group !=1) && (!in_array($group, $this->groups))) ) {
+	     print "Error in given group should be 1 - 7";
+	     exit();
+	   }
+	 
 	  $no_light = $this->_check_light($group, $nepal_day);
 	  if($no_light) {
 	    $output['light_status'] = 0;
-	    $output['message'] = "Group ". $group . " does not have light right now.";
-	    $output['full_message'] = "It is ". $nepal_time_h_m_s ." - ". $nepal_day ." at the current moment and ". $output['message'];
+	    $output['message'] = "Group ". $group . " does not have light for this time.";
+	    $output['full_message'] = "It is a check for ". $nepal_time_h_m_s ." - ". $nepal_day ." and ". $output['message'];
 	  }
 	  else {
 	    $output['light_status'] = 1;
-	    $output['message'] = "Group ". $group . " has light right now.";
-	    $output['full_message'] = "It is ". $nepal_time_h_m_s ." - ". $nepal_day ." at the current moment and ". $output['message'];
+	    $output['message'] = "Group ". $group . " has light for this time.";
+	    $output['full_message'] = "It is a check for ". $nepal_time_h_m_s ." - ". $nepal_day ." and ". $output['message'];
 	  }
 	  
 	  $xml	= array_to_xml($output,1,'messages' );
