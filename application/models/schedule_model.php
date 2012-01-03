@@ -17,6 +17,10 @@ class Schedule_Model extends CI_Model {
     parent::__construct();
   }
 
+  /**
+   * 
+   * Random function to get last 15 entries from the db limit 15
+   */
   function get_last_15_entries()
   {
     $query = $this->db->get('ls_schedule', 15);
@@ -41,6 +45,14 @@ class Schedule_Model extends CI_Model {
     $this->db->update('entries', $this, array('id' => $_POST['id']));
   }
 */
+  /**
+   * 
+   * Function to use the hash_map to lookup
+   * what date of X group is same to the day of group 1
+   * @param int $group
+   * @param string $day
+   * @return NULL or group1 day as string
+   */
   function lookup($group='2', $day = 'Sunday')
   {
     $query = $this->db->get_where('ls_hash_map', array('xday1' => $day, 'xgroup' => $group), 1);
@@ -61,6 +73,12 @@ class Schedule_Model extends CI_Model {
     
   }
   
+  /**
+   * 
+   * Function to serach for the corrent start and end time as per day and group1
+   * @param string $day
+   * @param string $type - First or Second possible
+   */
   function search($day = 'Sunday', $type='First') {
     $query = $this->db->get_where('ls_schedule', array('day'=> $day,
                                                         'group' => '1',
@@ -68,6 +86,7 @@ class Schedule_Model extends CI_Model {
                                                         'type' => $type
                                                       )
                                   );
+    //@todo get latest schedule and limit by 1
     return $query->result();
   }
 }
