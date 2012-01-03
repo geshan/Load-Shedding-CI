@@ -55,6 +55,7 @@ class Schedule extends CI_Controller {
 	  redirect('/schedule/show/', 'refresh');
 	}
 
+	
 	/**
 	 * 
 	 * Simple get function to get last 15 entries
@@ -220,22 +221,25 @@ class Schedule extends CI_Controller {
 	 * 
 	 * Function to set global variables for group1 and group2to7
 	 * main function to execute logic from db
+	 * should be called just once
 	 */
 	function _set_vars() 
 	{
 	  //$group2to7[][] = '';
-	   
-	  foreach($this->days as $day) {
-	    $this->group1[$day] .= $this->_search($day, 'First');
-	    $this->group1[$day] .= $this->_search($day, 'Second');
-	  }
-	   
-	  foreach($this->groups as $group){
+	  if($this->group1['Sunday'] == '') {
 	    foreach($this->days as $day) {
-	      $this->group2to7[$group][$day] = $this->group1[$this->_lookup_schedule($group, $day)];
+	      $this->group1[$day] .= $this->_search($day, 'First');
+	      $this->group1[$day] .= $this->_search($day, 'Second');
 	    }
-	     
-	  }
+	    
+	    foreach($this->groups as $group){
+	      foreach($this->days as $day) {
+	        $this->group2to7[$group][$day] = $this->group1[$this->_lookup_schedule($group, $day)];
+	      }
+	    
+	    }  
+	  } 
+	  
 	  
 	}
 	
@@ -287,6 +291,20 @@ class Schedule extends CI_Controller {
 	    }
 	  }
 	  return $no_light;
+	}
+	
+	function _set_current_status()
+	{
+	  
+	  $dateTime = new DateTime("now", new DateTimeZone('Asia/Kathmandu'));
+	  $nepal_time =  $dateTime->format("Y-m-d H:i:s");
+	  $nepal_time_h_m_s = $dateTime->format("H:i:s");
+	  
+	  if($nepal_day == 0) {
+	    //get today's day
+	    $nepal_day = $dateTime->format("l");
+	  }
+	  
 	}
 	
 	/********************** ================== Private functions Part End ====================== *****************/

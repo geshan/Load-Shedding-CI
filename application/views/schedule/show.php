@@ -1,3 +1,4 @@
+<div id="title"><h2 class="page-title-h1">Load Shedding Kathmandu Nepal - Schedule of 20-Dec-2011</h2></div>
 <table id="ls_table" class="ls-tbl">
   <tr>
     <td>Group/Day</td>
@@ -6,7 +7,7 @@
           <td><?php print $day?></td>
     <?php endforeach;?>
   </tr>
-  <tr>
+  <tr class="light-<?php //print $statuses[1];?>">
   	<td>Group - 1</td>
   	<?php foreach ($days as $day): ?>
           <td class="-light"><?php print $group1[$day]?></td>
@@ -19,7 +20,7 @@
   <?php //print_r($group);
     //exit();
   ?>
-  <tr>
+  <tr class="light-<?php //print $group['current_status'];?>">
   	<td>Group - <?php print $loopcount?></td>
   	<?php foreach ($days as $day): ?>
           <td class="-light"><?php print $group[$day]?></td>

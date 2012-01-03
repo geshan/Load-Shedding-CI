@@ -30,9 +30,9 @@ h2 {
 }
 
 h1 {
-  font-size: 30px;
+  font-size: 24px;
   font-weight: bold;
-    color: #446A97;
+  color: #446A97;
 }
 
 
@@ -908,12 +908,12 @@ div.message-box ul li {
   border:none;  
 }
 
-.yes-light {
+.yes-light, .light-1 {
 	
 	color : #006699;
 }
 
-.no-light {
+.no-light, .light-0 {
 	
 	color : #FF0000;
 }
@@ -935,6 +935,9 @@ div.message-box ul li {
 .ls-message-no {
 	background-image: url("../images/bulb_sad.png");
 	background-repeat: no-repeat;
+}
+#title h2 {
+	text-align : left;
 }
 /**error notification etc **/
 
