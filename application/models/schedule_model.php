@@ -26,25 +26,7 @@ class Schedule_Model extends CI_Model {
     $query = $this->db->get('ls_schedule', 15);
     return $query->result();
   }
-/*
-  function insert_entry()
-  {
-    $this->title   = $_POST['title']; // please read the below note
-    $this->content = $_POST['content'];
-    $this->date    = time();
 
-    $this->db->insert('entries', $this);
-  }
-
-  function update_entry()
-  {
-    $this->title   = $_POST['title'];
-    $this->content = $_POST['content'];
-    $this->date    = time();
-
-    $this->db->update('entries', $this, array('id' => $_POST['id']));
-  }
-*/
   /**
    * 
    * Function to use the hash_map to lookup

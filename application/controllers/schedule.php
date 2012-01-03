@@ -46,7 +46,6 @@ class Schedule extends CI_Controller {
 		$this->load->library('template');
 	}
 	
-	//---------------------------------------------------------------
 	/**
 	 * Main index function
 	 * is routed to when index.php/schedule/ is entered as URL
@@ -56,8 +55,6 @@ class Schedule extends CI_Controller {
 	  redirect('/schedule/show/', 'refresh');
 	}
 
-	//---------------------------------------------------------------	
-	
 	/**
 	 * 
 	 * Simple get function to get last 15 entries
