@@ -918,6 +918,24 @@ div.message-box ul li {
 	color : #FF0000;
 }
 
+#ls-message-box {
+   height: 425px;
+   margin-left: auto;
+   margin-right: auto;
+   padding-left: 239px;
+   padding-top: 62px;
+   width: 375px;
+}
+
+.ls-message-yes {
+	background-image: url("../images/bulb_happy.png");
+	background-repeat: no-repeat;
+}
+
+.ls-message-no {
+	background-image: url("../images/bulb_sad.png");
+	background-repeat: no-repeat;
+}
 /**error notification etc **/
 
 .notification {
