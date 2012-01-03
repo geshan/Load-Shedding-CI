@@ -33,6 +33,7 @@ class Schedule extends CI_Controller {
 	                	'Saturday' => ''
 	                  );
   var $group2to7;
+  var $statuses;
   
   /**
    * 
@@ -84,15 +85,18 @@ class Schedule extends CI_Controller {
 	 */
 	function show()
 	{
-	  
+	  $this->_set_current_status();
 	  $this->_set_vars();
 	  
 	  //print_r($group2to7);
-	    
+	  $dateTime = new DateTime("now", new DateTimeZone('Asia/Kathmandu'));
+	  $nepal_day = $dateTime->format("l");
+	  
 	  $this->template->set('days',$this->days);
 	  $this->template->set('group2to7', $this->group2to7);
 	  $this->template->set('group1',$this->group1);
-	  
+	  $this->template->set('statuses', $this->statuses);
+	  $this->template->set('nepal_day', $nepal_day);
 	  $this->template->render();
 	}
 	
@@ -139,7 +143,14 @@ class Schedule extends CI_Controller {
 	  $this->template->render();
 	  //check if there is light;
 	}
-	
+	/**
+	 * 
+	 * Function to test embed
+	 */
+	function embed()
+	{
+	  $this->template->render();
+	}
 	/********************** ================== Web API functions Part Start ====================== *****************/
 	/**
 	 * 
@@ -293,18 +304,23 @@ class Schedule extends CI_Controller {
 	  return $no_light;
 	}
 	
+	/**
+	 * 
+	 * Function to set current statuses
+	 */
 	function _set_current_status()
 	{
 	  
 	  $dateTime = new DateTime("now", new DateTimeZone('Asia/Kathmandu'));
 	  $nepal_time =  $dateTime->format("Y-m-d H:i:s");
 	  $nepal_time_h_m_s = $dateTime->format("H:i:s");
+	  $nepal_day = $dateTime->format("l");
 	  
-	  if($nepal_day == 0) {
-	    //get today's day
-	    $nepal_day = $dateTime->format("l");
+	  $this->statuses[1] = !($this->_check_light(1, $nepal_day));
+	  foreach($this->groups as $group) {
+	    $this->statuses[$group] = !($this->_check_light($group, $nepal_day));
 	  }
-	  
+
 	}
 	
 	/********************** ================== Private functions Part End ====================== *****************/

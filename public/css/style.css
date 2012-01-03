@@ -936,8 +936,17 @@ div.message-box ul li {
 	background-image: url("../images/bulb_sad.png");
 	background-repeat: no-repeat;
 }
-#title h2 {
+#title, #legand {
 	text-align : left;
+}
+
+#wrapper {
+	width: 840px;
+	height: 340px;
+	
+}
+.td-today-1 {
+	background: #afafaf;
 }
 /**error notification etc **/
 
