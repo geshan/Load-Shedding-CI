@@ -956,6 +956,9 @@ div.message-box ul li {
 #embed-code {
 	text-align : left;
 }
+#hide {
+	display: none;
+}
 /**error notification etc **/
 
 .notification {
