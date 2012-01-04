@@ -22,7 +22,7 @@ class Schedule extends CI_Controller {
 	 * */
   
   /**
-   * Some globar variables to set the things set by _set_vars function
+   * Some global/controller wide variables to set the things set by _set_vars function
    * Enter description here ...
    * @var unknown_type
    */
@@ -34,6 +34,7 @@ class Schedule extends CI_Controller {
 	                  );
   var $group2to7;
   var $statuses;
+  var $light_back = 0;
   
   /**
    * 
@@ -133,6 +134,9 @@ class Schedule extends CI_Controller {
 	    $message = "Group ". $group . " does not have light for this time.";
 	    $full_message = "It is a check for ". $nepal_time_h_m_s ." - ". $nepal_day ." at the current moment and ". $message;
 	    $this->template->set('msg_class', 'no');
+	    if($this->light_back != 0) {
+	      $this->template->set('light_back_msg', "The light will be back in around " .$this->light_back. " hours.");
+	    }
 	  }
 	  else {
 	    $message = "Group ". $group . " has light for this time.";
@@ -190,6 +194,9 @@ class Schedule extends CI_Controller {
 	    $output['light_status'] = 0;
 	    $output['message'] = "Group ". $group . " does not have light for this time.";
 	    $output['full_message'] = "It is a check for ". $nepal_time_h_m_s ." - ". $nepal_day ." and ". $output['message'];
+	    if($this->light_back != 0) {
+	      $output['light_back_message']= "The light will be back in around " .$this->light_back. " hours.";
+	    }
 	  }
 	  else {
 	    $output['light_status'] = 1;
@@ -197,7 +204,7 @@ class Schedule extends CI_Controller {
 	    $output['full_message'] = "It is a check for ". $nepal_time_h_m_s ." - ". $nepal_day ." and ". $output['message'];
 	  }
 	  
-	  $xml	= array_to_xml($output,1,'messages' );
+	  $xml	= array_to_xml($output, 1, 'messages');
 	  header('Content-Type: application/xml');
 	  print $xml;
 	}
@@ -257,10 +264,10 @@ class Schedule extends CI_Controller {
 	    
 	    }  
 	  } 
-	  
-	  
+	   
 	}
 	
+
 	/**
 	 * 
 	 * Function that checks light or not in given group for particular day
@@ -304,11 +311,30 @@ class Schedule extends CI_Controller {
 	      if($nepal_time_h_m_s > $ls[0] && $nepal_time_h_m_s < $ls[1]) { //simple time comparision is working till now
 	        //@todo will need chage of logic
 	        $no_light = 1;
+	        $this->_set_light_back($ls[1], $nepal_time_h_m_s);
 	        break;
 	      }  
 	    }
 	  }
 	  return $no_light;
+	}
+	
+	/**
+	*
+	* Function to set when light will be back
+	* called only if there is load shedding now,
+	* does not return anything but sets a controller wide variable light_back with estimated hours
+	* for light to come back.
+	* @param unknown_type $end_time
+	* @param unknown_type $nepal_time_h_m_s
+	*/
+	function _set_light_back($end_time, $nepal_time_h_m_s)
+	{
+	  $to_time=strtotime($end_time);
+	  $from_time=strtotime($nepal_time_h_m_s);
+	  $this->light_back = round(abs($to_time - $from_time) / 3600,1); //in hours
+	  //print "<h3>Light will be back in around " .$light_back. "</h3>";
+	  //$light_go =
 	}
 	
 	/**

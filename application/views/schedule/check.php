@@ -6,4 +6,7 @@ print $custom_message; ?></h2>
 
 <h3 class="<?php print $msg_class;?>-light"><?php
 print $full_message; ?></h3> 
+<?php if(isset($light_back_msg)):?>
+	<h2 class="yes-light"><?php print $light_back_msg;?></h2>
+<?php endif;?>
 </div>

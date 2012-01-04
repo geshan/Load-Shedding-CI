@@ -15,7 +15,8 @@
 <div class="<?php print $message_class;?>">	<?php echo $this->template->message(); ?></div>
     
     <?php echo $this->template->yield(); ?>
-    <?php print anchor("", 'Home');?>
+    <br/>
+   <div class="menuitem"><a href="<?php print base_url()?>"><h2>Back Home</h2></a></div>
 
 </body>
 </html>

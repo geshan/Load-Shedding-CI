@@ -42,8 +42,8 @@
   </div>
 </div>
 <?php for($i=0;$i<4;$i++): ?>
-        <br/>
-<?php endfor;?>
+	<br/>
+<? endfor;?>
 <div id="embed-code">
 <p>If you want to embed this on your website/blog copy and paste the code given below:</p>
 <textarea rows="5" cols="5">
