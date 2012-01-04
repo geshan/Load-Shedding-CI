@@ -953,6 +953,9 @@ div.message-box ul li {
 .td-today-1 {
 	background: #afafaf;
 }
+#embed-code {
+	text-align : left;
+}
 /**error notification etc **/
 
 .notification {
