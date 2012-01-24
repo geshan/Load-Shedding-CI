@@ -1,4 +1,4 @@
-HOW TO USE THIS APP
+HOW THE APP IS BUILT
 It is a simple app developed using CodeIgniter PHP MVC framework and MYSQL database. For better control over views Ocular libray is used.
 
 SETUP
