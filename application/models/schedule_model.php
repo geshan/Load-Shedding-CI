@@ -71,4 +71,16 @@ class Schedule_Model extends CI_Model {
     //@todo get latest schedule and limit by 1
     return $query->result();
   }
+  
+  function getLastDate() {
+    $sql = "SELECT MAX(ls.effective_from) as last_date FROM ls_schedule as ls";
+    $query = $this->db->query($sql);
+    if ($query->num_rows() > 0)
+    {
+      $row = $query->row();
+    
+      return $row->last_date;
+    }
+    
+  }
 }

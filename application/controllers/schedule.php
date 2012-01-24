@@ -35,6 +35,7 @@ class Schedule extends CI_Controller {
   var $group2to7;
   var $statuses;
   var $light_back = 0;
+  var $last_date;
   
   /**
    * 
@@ -93,6 +94,7 @@ class Schedule extends CI_Controller {
 	  $dateTime = new DateTime("now", new DateTimeZone('Asia/Kathmandu'));
 	  $nepal_day = $dateTime->format("l");
 	  $nepal_time_h_m_s = $dateTime->format("H:i:s");
+
 	  
 	  $this->template->set('days',$this->days);
 	  $this->template->set('group2to7', $this->group2to7);
@@ -100,6 +102,7 @@ class Schedule extends CI_Controller {
 	  $this->template->set('statuses', $this->statuses);
 	  $this->template->set('nepal_day', $nepal_day);
 	  $this->template->set('nepal_time_h_m_s', $nepal_time_h_m_s);
+	  $this->template->set('last_date', $this->last_date);
 	  $this->template->render();
 	}
 	
@@ -146,6 +149,7 @@ class Schedule extends CI_Controller {
 	  
 	  $this->template->set('custom_message', $message);
 	  $this->template->set('full_message', $full_message);
+	  $this->template->set('last_date', $this->last_date);
 	  $this->template->render();
 	  //check if there is light;
 	}
@@ -263,7 +267,9 @@ class Schedule extends CI_Controller {
 	      }
 	    
 	    }  
-	  } 
+	  }
+
+	  $this->last_date = $this->schedule->getLastDate();
 	   
 	}
 	

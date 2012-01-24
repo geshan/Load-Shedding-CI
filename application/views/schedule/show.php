@@ -1,5 +1,5 @@
 <div id="wrapper">
-  <div id="title"><h2 class="page-title-h1">Load Shedding Kathmandu Nepal - Schedule of 20-Dec-2011</h2></div>
+  <div id="title"><h2 class="page-title-h1">Load Shedding Kathmandu Nepal - Schedule of <?php print $last_date;?></h2></div>
   <table id="ls_table" class="ls-tbl">
     <tr>
       <td>Group/Day</td>
@@ -41,7 +41,7 @@
   	</ul>
   </div>
 </div>
-<?php for($i=0;$i<4;$i++): ?>
+<?php for($i=0;$i<7;$i++): ?>
 	<br/>
 <? endfor;?>
 <div id="embed-code">
