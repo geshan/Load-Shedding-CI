@@ -1,6 +1,6 @@
 #for ci settings
-system/application/config/config.php
-system/application/config/database.php
+application/config/config.php
+application/config/database.php
 user_guide/
 license.txt
 
