@@ -314,6 +314,8 @@ class Schedule extends CI_Controller {
 	  $no_light = 0;
 	  foreach ($ls_timing as $ls) {
 	    if( (isset($ls[0]) && isset($ls[1])) ) {
+	      $ls[1] = ($ls[1] == '24:00:00')? '23:59:59' : $ls[1]; //update for too may hours -- Geshan --26-Jan-2012
+	      //print $ls[1];
 	      if($nepal_time_h_m_s > $ls[0] && $nepal_time_h_m_s < $ls[1]) { //simple time comparision is working till now
 	        //@todo will need chage of logic
 	        $no_light = 1;
