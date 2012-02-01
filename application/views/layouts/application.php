@@ -16,7 +16,7 @@
     
     <?php echo $this->template->yield(); ?>
     		<br/>
-   <div class="menuitem"><a href="<?php print base_url()?>"><h2>Back Home</h2></a></div>
+   <div class="menuitem"><a href="<?php print base_url()?>"><h2>Back Home</h2></a> <br /> Developed by <a href="http://geshan.blogspot.com">Geshan Manandhar</a></div>
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
