@@ -83,4 +83,11 @@ class Schedule_Model extends CI_Model {
     }
     
   }
+  
+  function testSp($day = 'Sunday') {
+    
+    $sql = "CALL getScheduleByDay('". $this->db->escape_str($day) ."')";
+    $query = $this->db->query($sql);
+    return $query->result();
+  }
 }

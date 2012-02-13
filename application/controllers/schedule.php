@@ -161,6 +161,19 @@ class Schedule extends CI_Controller {
 	{
 	  $this->template->render();
 	}
+	/**
+	 * function to test stored proc in mysql
+	 * Enter description here ...
+	 */
+	function testSp()
+	{
+	  $result = $this->schedule->testSp();
+	  foreach($result as $row) {
+	    print $row->day;
+	    print "<br/>";
+	  }
+	  echo "ok";
+	}
 	/********************** ================== Web API functions Part Start ====================== *****************/
 	/**
 	 * 
@@ -229,7 +242,7 @@ class Schedule extends CI_Controller {
 	}
 	
 	/**
-	 * 
+	 * ,
 	 * Function to serach/get the timings etc for group 1
 	 * @param string $day
 	 * @param string $type
