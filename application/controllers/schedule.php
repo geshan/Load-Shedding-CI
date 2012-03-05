@@ -353,7 +353,7 @@ class Schedule extends CI_Controller {
 	{
 	  $to_time=strtotime($end_time);
 	  $from_time=strtotime($nepal_time_h_m_s);
-	  $this->light_back = round(abs($to_time - $from_time) / 3600,1); //in hours
+	  $this->light_back = round(abs($to_time - $from_time) / 3600, 2); //in hours
 	  //print "<h3>Light will be back in around " .$light_back. "</h3>";
 	  //$light_go =
 	}
