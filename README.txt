@@ -14,4 +14,4 @@ http://demo.geshanmanandhar.com/webs - Main Page
 http://demo.geshanmanandhar.com/webs/index.php/schedule/show - Live schedule
 http://demo.geshanmanandhar.com/webs/index.php/schedule/check/1 - Current check for group 1-- change last parameter for group 1-7
 
-Has XML output as well.
+Has XML output as well. Needs some change to pull updates.
